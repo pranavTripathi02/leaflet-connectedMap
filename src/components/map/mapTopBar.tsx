@@ -52,7 +52,7 @@ function MapTopBar() {
             />
           </div>
           <div className="hidden max-h-[384px] min-w-fit max-w-[400px] flex-col gap-2 overflow-y-scroll rounded py-4 group-focus-within:flex md:max-h-[512px]">
-            {userList.map((user) => {
+            {userList.slice(0, 20).map((user) => {
               return (
                 <div
                   key={user.id}
