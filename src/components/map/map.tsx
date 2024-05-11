@@ -1,8 +1,11 @@
 "use client";
 import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import useMapContext from "@/hooks/useMapContext";
 
 function Mapview() {
+  const { userList } = useMapContext();
+  console.log(userList);
   return (
     <MapContainer
       className="w-full h-full"
