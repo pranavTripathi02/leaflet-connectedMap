@@ -1,0 +1,93 @@
+"use client";
+
+import useMapContext from "@/hooks/useMapContext";
+import { useRef, useState } from "react";
+
+function MapTopBar() {
+  const [searchText, setSearchText] = useState("");
+  const { setSearchTerm } = useMapContext();
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+    setSearchTerm(e.target.value);
+  };
+  return (
+    <div className="back absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 py-2 md:top-10 md:bg-transparent">
+      <div className="flex justify-between ">
+        <div className="group peer flex w-fit items-center rounded focus-within:bg-white focus-within:outline-blue-700 md:bg-white">
+          {/* Search Icon */}
+          <button
+            onClick={() => {
+              searchInputRef.current && searchInputRef.current.focus();
+            }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-search mx-2 group-focus-within:opacity-80 md:opacity-50"
+            >
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+          </button>
+          <input
+            ref={searchInputRef}
+            className="w-0 bg-transparent outline-none duration-200 focus:w-40 focus:px-4 focus:py-2 md:w-80 md:px-4 md:py-2 md:focus:w-96"
+            value={searchText}
+            onChange={handleSearch}
+            placeholder="Search Users"
+          />
+        </div>
+        <div className="flex gap-4 peer-focus-within:hidden">
+          {/* User List Icon */}
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-users-round"
+            >
+              <path d="M18 21a8 8 0 0 0-16 0" />
+              <circle cx="10" cy="8" r="5" />
+              <path d="M22 20c0-3.37-2-6.5-4-8a5 5 0 0 0-.45-8.3" />
+            </svg>
+          </button>
+          {/* Map Icon */}
+          <button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="lucide lucide-map"
+            >
+              <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+              <path d="M15 5.764v15" />
+              <path d="M9 3.236v15" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default MapTopBar;

@@ -2,7 +2,7 @@
 import { createContext, useEffect, useState } from "react";
 import userData from "../../data/data.json";
 
-type TUser = {
+export type TUser = {
   id: number;
   photo: string;
   fullName: string;
