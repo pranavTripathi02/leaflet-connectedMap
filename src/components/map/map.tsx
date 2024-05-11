@@ -4,25 +4,10 @@ import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import MarkerIcon from "./marker";
 import { renderToString } from "react-dom/server";
-import { TUser } from "@/context/mapContext";
 import useMapContext from "@/hooks/useMapContext";
 
 function Map() {
-  const { userList, searchTerm } = useMapContext();
-  const filterUsers = (userList: TUser[]) => {
-    let newFilteredUserList = userList.slice();
-    if (searchTerm.length > 1) {
-      newFilteredUserList = userList.filter((user) =>
-        user.fullName
-          .toLowerCase()
-          .split(" ")
-          .join("")
-          .includes(searchTerm.toLowerCase().split(" ").join("")),
-      );
-    }
-    return newFilteredUserList;
-  };
-  const filteredUserList = filterUsers(userList);
+  const { userList } = useMapContext();
   return (
     <MapContainer
       className="z-0 h-full w-full"
@@ -41,7 +26,7 @@ function Map() {
         attribution='<a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      {filteredUserList.map((user) => {
+      {userList.map((user) => {
         if (!user.location.lat || !user.location.lng) return null;
         return (
           <Marker

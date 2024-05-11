@@ -10,7 +10,7 @@ function MapView() {
       <div className="relative mx-4 md:mx-20">
         <MapTopBar />
       </div>
-      {/* <Map /> */}
+      <Map />
     </div>
   );
 }

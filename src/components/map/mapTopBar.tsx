@@ -1,11 +1,12 @@
 "use client";
 
 import useMapContext from "@/hooks/useMapContext";
+import Image from "next/image";
 import { useRef, useState } from "react";
 
 function MapTopBar() {
   const [searchText, setSearchText] = useState("");
-  const { setSearchTerm } = useMapContext();
+  const { setSearchTerm, userList } = useMapContext();
   const searchInputRef = useRef<HTMLInputElement>(null);
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(e.target.value);
@@ -13,39 +14,74 @@ function MapTopBar() {
   };
   return (
     <div className="back absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 py-2 md:top-10 md:bg-transparent">
-      <div className="flex justify-between ">
-        <div className="group peer flex w-fit items-center rounded focus-within:bg-white focus-within:outline-blue-700 md:bg-white">
-          {/* Search Icon */}
-          <button
-            onClick={() => {
-              searchInputRef.current && searchInputRef.current.focus();
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="lucide lucide-search mx-2 group-focus-within:opacity-80 md:opacity-50"
+      <div className="flex items-start justify-between">
+        <div className="group peer flex flex-col gap-4">
+          <div className="group flex w-fit items-center rounded focus-within:bg-white focus-within:outline-blue-700 md:bg-white">
+            {/* Search Icon */}
+            <button
+              onClick={() => {
+                searchInputRef.current && searchInputRef.current.focus();
+              }}
             >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
-          </button>
-          <input
-            ref={searchInputRef}
-            className="w-0 bg-transparent outline-none duration-200 focus:w-40 focus:px-4 focus:py-2 md:w-80 md:px-4 md:py-2 md:focus:w-96"
-            value={searchText}
-            onChange={handleSearch}
-            placeholder="Search Users"
-          />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="32"
+                height="32"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="lucide lucide-search mx-2 group-focus-within:opacity-80 md:opacity-50"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+            </button>
+            <input
+              ref={searchInputRef}
+              className="w-0 bg-transparent outline-none duration-200 focus:w-40 focus:px-4 focus:py-2 md:w-96 md:px-4 md:py-2 md:focus:w-96"
+              value={searchText}
+              onChange={handleSearch}
+              placeholder="Search Users"
+            />
+          </div>
+          <div className="hidden max-h-[512px] flex-col gap-2 overflow-y-scroll rounded bg-white py-4 group-focus-within:flex">
+            {searchText.length > 2
+              ? userList.map((user) => {
+                  return (
+                    <div
+                      key={user.id}
+                      className="flex items-center gap-4 rounded border-b border-black/5 px-4 py-4 last:border-0"
+                    >
+                      <div className="rounded-full border-2">
+                        <Image
+                          src={user.photo}
+                          height={64}
+                          width={64}
+                          alt={user.fullName}
+                          objectFit="cover"
+                          className="break-after-all text-center text-sm"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        {/* name */}
+                        <p className="font-bold">{user.fullName}</p>
+                        {/* location */}
+                        <p className="break-normal">
+                          {user.location.city && user.location.city + ", "}
+                          {user.location.state && user.location.state + ", "}
+                          {user.location.country && user.location.country}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })
+              : null}
+          </div>
         </div>
-        <div className="flex gap-4 peer-focus-within:hidden">
+        <div className="flex gap-4 py-2 peer-focus-within:hidden">
           {/* User List Icon */}
           <button>
             <svg
