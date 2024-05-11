@@ -1,17 +1,25 @@
 "use client";
 
+import useDebounce from "@/hooks/useDebounce";
 import useMapContext from "@/hooks/useMapContext";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function MapTopBar() {
-  const [searchText, setSearchText] = useState("");
-  const { setSearchTerm, userList } = useMapContext();
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const [searchbarText, setSearchbarText] = useState("");
+
+  const { setSearchTerm, userList } = useMapContext();
+  const debouncedSearchText = useDebounce(searchbarText);
+  useEffect(
+    () => setSearchTerm(debouncedSearchText.toLowerCase().split(" ").join("")),
+    [debouncedSearchText],
+  );
+
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchText(e.target.value);
-    setSearchTerm(e.target.value);
+    setSearchbarText(e.target.value);
   };
+
   return (
     <div className="back absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 py-2 md:top-10 md:bg-transparent">
       <div className="flex items-start justify-between">
@@ -42,28 +50,29 @@ function MapTopBar() {
             <input
               ref={searchInputRef}
               className="w-0 bg-transparent outline-none duration-200 focus:w-40 focus:px-4 focus:py-2 md:w-96 md:px-4 md:py-2 md:focus:w-96"
-              value={searchText}
+              value={searchbarText}
               onChange={handleSearch}
               placeholder="Search Users"
             />
           </div>
-          <div className="hidden max-h-[512px] flex-col gap-2 overflow-y-scroll rounded bg-white py-4 group-focus-within:flex">
-            {searchText.length > 2
+          <div className="hidden max-h-[512px] flex-col gap-2 overflow-y-scroll rounded bg-white py-4 group-focus-within:flex group-focus-within:empty:hidden">
+            {searchbarText.length > 2
               ? userList.map((user) => {
                   return (
                     <div
                       key={user.id}
                       className="flex items-center gap-4 rounded border-b border-black/5 px-4 py-4 last:border-0"
                     >
-                      <div className="rounded-full border-2">
-                        <Image
-                          src={user.photo}
-                          height={64}
-                          width={64}
-                          alt={user.fullName}
-                          objectFit="cover"
-                          className="break-after-all text-center text-sm"
-                        />
+                      <div className="h-[64px] w-[64px] rounded-full border-2">
+                        {user.photo && (
+                          <Image
+                            src={user.photo}
+                            height={64}
+                            width={64}
+                            alt={user.fullName}
+                            className="break-after-all text-center text-sm"
+                          />
+                        )}
                       </div>
                       <div className="flex flex-col">
                         {/* name */}

@@ -1,9 +1,8 @@
-import MapTopBar from "@/components/header";
-import MapView from "@/components/map/mapView";
+import { MapView } from "@/components/map";
 
 export default function Home() {
   return (
-    <main className="">
+    <main>
       <MapView />
     </main>
   );

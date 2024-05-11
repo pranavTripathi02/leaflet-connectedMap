@@ -1,8 +1,4 @@
-"use client";
-
-import "leaflet/dist/leaflet.css";
-import Map from "./map";
-import MapTopBar from "./mapTopBar";
+import { Map, MapTopBar } from "./index";
 
 function MapView() {
   return (

@@ -39,11 +39,7 @@ function MapContextProvider({ children }: { children: React.ReactNode }) {
     let newFilteredUserList = userList.slice();
     if (searchTerm.length > 1) {
       newFilteredUserList = userList.filter((user) =>
-        user.fullName
-          .toLowerCase()
-          .split(" ")
-          .join("")
-          .includes(searchTerm.toLowerCase().split(" ").join("")),
+        user.fullName.toLowerCase().split(" ").join("").includes(searchTerm),
       );
     }
     return newFilteredUserList;

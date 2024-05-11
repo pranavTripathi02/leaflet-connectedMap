@@ -3,7 +3,7 @@ import { useContext } from "react";
 
 function useMapContext() {
   const ctx = useContext(MapContext);
-  if (ctx == null) {
+  if (!ctx) {
     throw new Error("Cannot initialize map context");
   }
 
