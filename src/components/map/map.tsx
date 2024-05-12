@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, TileLayer } from "react-leaflet";
+import { MapContainer, Marker, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/leaflet.markercluster";
 import L from "leaflet";
@@ -10,6 +10,13 @@ import useMapContext from "@/hooks/useMapContext";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 
+const MAPCENTER: L.LatLngTuple = [0, 0];
+const MAPZOOM = 4;
+const MAPZOOM_MIN = 4;
+const MAPZOOM_MAX = 12;
+// TODO:
+// marker icon
+// cluster icon
 function Map() {
   const { userList } = useMapContext();
   const [mount, setMount] = useState(false);
@@ -26,14 +33,44 @@ function Map() {
     map?.zoomControl?.setPosition("bottomright");
     const markers = L.markerClusterGroup({
       iconCreateFunction: function (cluster) {
-        return L.divIcon({ html: "<b>" + cluster.getChildCount() + "</b>" });
+        return L.divIcon({
+          html:
+            "<div class='w-8 h-8 text-center bg-transparent'>" +
+            cluster.getChildCount() +
+            "</div>",
+          iconSize: [32, 32],
+          className: "bg-transparent",
+        });
       },
     });
     userList.forEach(
       (user) =>
         user.location.lat &&
         user.location.lng &&
-        markers.addLayer(L.marker([user.location.lat, user.location.lng])),
+        markers.addLayer(
+          L.marker([user.location.lat, user.location.lng], {
+            icon: L.divIcon({
+              html: `
+            <div class="flex gap-4 rounded min-w-fit w-full px-4 py-2 bg-white/80 items-center relative">
+            <div class="rounded-full overflow-hidden w-8 h-8 object-cover">
+                <img src=${user.photo} alt=${user.fullName} width="32" height="32" class="object-cover"></img>
+            </div>
+            <div className="flex flex-col gap-2">
+            <p class="whitespace-nowrap">${user.fullName}</p>
+            <p class="whitespace-nowrap">${user.companyName ? user.companyName + (user.designation ? ", " + user.designation : null) : null}</p>
+            </div>
+            <span class="rotate-45 -bottom-2 mx-auto left-0 right-0 absolute w-8 h-8 bg-white/80 -z-10"></span>
+            </div>
+            `,
+              className: "",
+            }),
+            alt: `${user.fullName} map icon`,
+            riseOnHover: true,
+            autoPanOnFocus: true,
+            title: user.fullName,
+            interactive: true,
+          }),
+        ),
     );
     map.addLayer(markers);
   };
@@ -41,10 +78,10 @@ function Map() {
   return (
     <MapContainer
       className="z-0 h-full w-full"
-      center={[0, 0]}
-      zoom={4}
-      minZoom={4}
-      maxZoom={12}
+      center={MAPCENTER}
+      zoom={MAPZOOM}
+      minZoom={MAPZOOM_MIN}
+      maxZoom={MAPZOOM_MAX}
       touchZoom
       inertia
       dragging
@@ -64,10 +101,7 @@ function Map() {
       {/*       <Marker */}
       {/*         key={user.id} */}
       {/*         position={[user.location.lat, user.location.lng]} */}
-      {/*         icon={L.divIcon({ */}
-      {/*           className: "", */}
-      {/*           html: renderToString(<MarkerIcon />), */}
-      {/*         })} */}
+      {/*         icon={L.icon({ iconUrl: markerUrl, iconSize: [48, 48] })} */}
       {/*       /> */}
       {/*     ); */}
       {/*   })} */}
