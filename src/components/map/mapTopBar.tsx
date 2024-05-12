@@ -17,7 +17,7 @@ function MapTopBar() {
   );
 
   return (
-    <div className="back absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 py-2 md:top-10 md:bg-transparent">
+    <div className="back absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 py-2 md:top-10">
       <div className="flex items-start justify-between">
         <div className="group peer flex flex-col gap-4">
           <div className="group flex w-fit items-center rounded outline-blue-700 focus-within:bg-white focus-within:outline md:bg-white">
