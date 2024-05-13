@@ -25,8 +25,8 @@ type TContext = {
   userList: TUser[];
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-  selUser: TUser | null;
-  setSelUser: React.Dispatch<React.SetStateAction<TUser | null>>;
+  selUser: number | null;
+  setSelUser: React.Dispatch<React.SetStateAction<number | null>>;
 };
 
 const MapContext = createContext<TContext | null>(null);
@@ -35,7 +35,7 @@ function MapContextProvider({ children }: { children: React.ReactNode }) {
   const [isMapView, setIsMapView] = useState(true);
   const [filteredUserList, setFilteredUserList] = useState<TUser[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selUser, setSelUser] = useState<TUser | null>(null);
+  const [selUser, setSelUser] = useState<number | null>(null);
 
   const filterUsers = () => {
     let newFilteredUserList = userList.slice();

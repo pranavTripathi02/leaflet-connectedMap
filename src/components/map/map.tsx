@@ -10,6 +10,7 @@ import useMapContext from "@/hooks/useMapContext";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import MarkerIndividualSm from "./markerIndividualSm";
+import PopupHTML from "./popupHtml";
 
 const MAPCENTER: L.LatLngTuple = [0, 0];
 const MAPZOOM = 4;
@@ -57,24 +58,9 @@ function Map() {
           }).on("click", () => {
             user.location.lat &&
               user.location.lng &&
-              map.flyTo([user.location.lat!, user.location.lng!]).openPopup(
-                L.popup({
-                  className: "",
-                  content: `
-                <div class="flex gap-8 items-center h-fit">
-                  <div class="w-16 h-16 overflow-hidden rounded-full border">
-                      <img src=${user.photo} alt=${user.fullName} class="w-full h-full object-cover"></img>
-                  </div>
-                  <div class="flex flex-col gap-0 max-h-fit space-y-2">
-                      <span class="whitespace-nowrap text-lg">${user.fullName}</span>
-                      <span class="whitespace-nowrap opacity-80">${user.companyName ? user.companyName + (user.designation ? ", " + user.designation : null) : null}</span>
-                      <span class="whitespace-nowrap text-sm opacity-60 p-0">${user.location.city ? (user.location.city + ", " + user.location.state ? (user.location.state + ", " + user.location.country ? user.location.country : null) : null) : null}</span>
-                  </div>
-                </div>
-                `,
-                  autoClose: true,
-                }).setLatLng([user.location.lat!, user.location.lng!]),
-              );
+              map
+                .flyTo([user.location.lat!, user.location.lng!])
+                .openPopup(PopupHTML(user));
           }),
         ),
     );

@@ -51,38 +51,40 @@ function MapTopBar() {
               placeholder="Search Users"
             />
           </div>
-          <div className="hidden max-h-[384px] min-w-fit max-w-[400px] flex-col gap-2 overflow-y-scroll rounded py-4 group-focus-within:flex md:max-h-[512px]">
-            {userList.slice(0, 20).map((user) => {
-              return (
-                <div
-                  key={user.id}
-                  className="flex w-full items-center gap-4 rounded border-b border-black/5 bg-white px-4 py-4 last:border-0"
-                >
-                  <div className="h-[64px] w-[64px] rounded-full border-2">
-                    {user.photo && (
-                      <Image
-                        src={user.photo}
-                        height={64}
-                        width={64}
-                        alt={user.fullName}
-                        className="break-after-all text-center text-sm"
-                      />
-                    )}
+          {isMapView && (
+            <div className="hidden max-h-[384px] min-w-fit max-w-[400px] flex-col gap-2 overflow-y-scroll rounded py-4 group-focus-within:flex md:max-h-[512px]">
+              {userList.slice(0, 20).map((user) => {
+                return (
+                  <div
+                    key={user.id}
+                    className="flex w-full items-center gap-4 rounded border-b border-black/5 bg-white px-4 py-4 last:border-0"
+                  >
+                    <div className="h-[64px] w-[64px] rounded-full border-2">
+                      {user.photo && (
+                        <Image
+                          src={user.photo}
+                          height={64}
+                          width={64}
+                          alt={user.fullName}
+                          className="break-after-all text-center text-sm"
+                        />
+                      )}
+                    </div>
+                    <div className="flex flex-col">
+                      {/* name */}
+                      <p className="font-bold">{user.fullName}</p>
+                      {/* location */}
+                      <p className="break-normal">
+                        {user.location.city && user.location.city + ", "}
+                        {user.location.state && user.location.state + ", "}
+                        {user.location.country && user.location.country}
+                      </p>
+                    </div>
                   </div>
-                  <div className="flex flex-col">
-                    {/* name */}
-                    <p className="font-bold">{user.fullName}</p>
-                    {/* location */}
-                    <p className="break-normal">
-                      {user.location.city && user.location.city + ", "}
-                      {user.location.state && user.location.state + ", "}
-                      {user.location.country && user.location.country}
-                    </p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div className="pointer-events-auto flex gap-4 peer-focus-within:hidden">
           {/* User List Icon */}

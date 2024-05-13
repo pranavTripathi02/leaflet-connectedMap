@@ -1,14 +1,7 @@
-import { Map, MapTopBar } from "./index";
+import { Map } from "./index";
 
 function MapView() {
-  return (
-    <div className="h-dvh w-dvw">
-      <div className="relative mx-4 md:mx-20">
-        <MapTopBar />
-      </div>
-      <Map />
-    </div>
-  );
+  return <Map />;
 }
 
 export default MapView;
