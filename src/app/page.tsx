@@ -1,16 +1,27 @@
 "use client";
 import ListView from "@/components/list/listView";
-import { MapTopBar, MapView } from "@/components/map";
+import { MapView } from "@/components/map";
+import Topbar from "@/components/topbar";
 import useMapContext from "@/hooks/useMapContext";
+import algoliasearch from "algoliasearch";
+import { InstantSearch } from "react-instantsearch";
 
 export default function Home() {
   const { isMapView } = useMapContext();
   return (
     <main className="h-dvh w-dvw">
-      <div className="relative mx-4 md:mx-20">
-        <MapTopBar />
-      </div>
-      {isMapView ? <MapView /> : <ListView />}
+      <InstantSearch
+        searchClient={algoliasearch(
+          "K0YEFRGDBW",
+          "67715d8745d998ffab96ca1c05fe9c31",
+        )}
+        indexName="epyc_test"
+      >
+        <div className="relative">
+          <Topbar />
+        </div>
+        {isMapView ? <MapView /> : <ListView />}
+      </InstantSearch>
     </main>
   );
 }

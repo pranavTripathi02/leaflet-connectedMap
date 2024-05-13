@@ -1,0 +1,43 @@
+.ais-SearchBox-form {
+  background: white;
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  position: relative;
+  border: 1px solid black;
+}
+.ais-SearchBox-input {
+  background: transparent;
+  outline: none;
+  transition-duration: 200ms;
+}
+.ais-SearchBox-loadingIndicator {
+  position: absolute;
+  right: 3rem;
+  top: 0px;
+  bottom: 0px;
+  margin: auto;
+  height: fit-content;
+}
+.ais-SearchBox-submit {
+  display: none;
+}
+
+@media screen and (min-width: 600px) {
+  .ais-SearchBox-input {
+    width: 24rem;
+  }
+  .ais-SearchBox-input:focus {
+    width: 24rem;
+  }
+}
+@media screen and (max-width: 600px) {
+  .ais-SearchBox-input {
+    width: fit-content;
+    max-width: 150px;
+  }
+}
+.ais-SearchBox-form:focus-within {
+  outline: 4px solid blue;
+}

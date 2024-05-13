@@ -3,11 +3,14 @@
 import useMapContext from "@/hooks/useMapContext";
 import ListUserCard from "./listUserCard";
 import { useState } from "react";
+import { useInstantSearch } from "react-instantsearch";
+import { TUser } from "@/context/mapContext";
 
 function ListView() {
   const [offset, setOffset] = useState(0);
-  const { userList, selUser, setSelUser } = useMapContext();
-  console.log(userList.length, offset);
+  const { selUser, setSelUser } = useMapContext();
+  const { results } = useInstantSearch();
+
   const showUserDetails = (id: number) => {
     if (selUser === id) {
       setSelUser(null);
@@ -32,7 +35,7 @@ function ListView() {
     <section className="h-fit bg-white">
       <div className="container mx-auto max-w-3xl px-8 pt-32">
         <div className="flex flex-col gap-4">
-          {userList.slice(offset, offset + 10).map((user) => (
+          {results.hits.slice(offset, offset + 10).map((user: TUser) => (
             <ListUserCard
               user={user}
               key={user.id}
@@ -67,7 +70,7 @@ function ListView() {
           <button
             className="flex gap-2 border px-4 py-2 disabled:opacity-50"
             onClick={nextPage}
-            disabled={userList.length - offset < 10}
+            disabled={results.hits.length - offset < 10}
           >
             <div>
               <span>Next</span>
