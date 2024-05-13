@@ -11,7 +11,7 @@ function SearchResults() {
   };
   if (!isMapView) return null;
   return (
-    <div className="invisible absolute left-0 right-0 top-16 -z-[1] mx-auto max-h-[512px] max-w-[400px] overflow-scroll group-focus-within:visible">
+    <div className="invisible absolute left-0 right-0 top-16 -z-[1] mx-auto max-h-[512px] max-w-[400px] overflow-x-hidden overflow-y-scroll group-focus-within:visible">
       {results.hits.slice(0, 20).map((user: TUser) => (
         <div
           key={user.id}

@@ -11,8 +11,9 @@ const mcg = L.markerClusterGroup({
   showCoverageOnHover: false,
   iconCreateFunction: function (cluster) {
     return L.divIcon({
-      html: `<div class='w-fit rounded text-center bg-white px-4 py-2'>
-            <p class="whitespace-nowrap text-lg">${cluster.getChildCount()} People</p>
+      html: `<div class='w-fit rounded text-center bg-white px-4 py-2 relative'>
+            <p class="whitespace-nowrap text-lg text-black">${cluster.getChildCount()} People</p>
+        <span class="rotate-45 -bottom-1 mx-auto left-0 right-0 absolute w-4 h-4 bg-white -z-10"></span>
             </div>`,
       iconSize: [32, 32],
       className: "",
