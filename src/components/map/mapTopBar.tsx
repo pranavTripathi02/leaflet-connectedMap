@@ -9,7 +9,7 @@ function MapTopBar() {
   const searchInputRef = useRef<HTMLInputElement>(null);
   const [searchbarText, setSearchbarText] = useState("");
 
-  const { setSearchTerm, userList } = useMapContext();
+  const { setSearchTerm, userList, isMapView, setIsMapView } = useMapContext();
   const debouncedSearchText = useDebounce(searchbarText);
   useEffect(
     () => setSearchTerm(debouncedSearchText.toLowerCase().split(" ").join("")),
@@ -17,10 +17,10 @@ function MapTopBar() {
   );
 
   return (
-    <div className="back absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 py-2 md:top-10">
+    <div className="back pointer-events-none absolute left-0 right-0 top-4 z-20 h-fit w-full rounded bg-black/5 px-4 md:top-10 md:bg-transparent">
       <div className="flex items-start justify-between">
-        <div className="group peer flex flex-col gap-4">
-          <div className="group flex w-fit items-center rounded outline-blue-700 focus-within:bg-white focus-within:outline md:bg-white">
+        <div className="group peer pointer-events-auto flex flex-col gap-4">
+          <div className="group flex w-fit items-center rounded ring-blue-700 focus-within:bg-white focus-within:ring md:bg-white">
             {/* Search Icon */}
             <button
               onClick={() => {
@@ -84,9 +84,13 @@ function MapTopBar() {
             })}
           </div>
         </div>
-        <div className="flex gap-4 py-2 peer-focus-within:hidden">
+        <div className="pointer-events-auto flex gap-4 peer-focus-within:hidden">
           {/* User List Icon */}
-          <button>
+          <button
+            className={`${isMapView ? "" : "bg-blue-400"} rounded-full p-2`}
+            disabled={!isMapView}
+            onClick={() => setIsMapView(false)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"
@@ -105,7 +109,11 @@ function MapTopBar() {
             </svg>
           </button>
           {/* Map Icon */}
-          <button>
+          <button
+            className={`${isMapView ? "bg-blue-400" : ""} rounded-full p-2`}
+            disabled={isMapView}
+            onClick={() => setIsMapView(true)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="32"

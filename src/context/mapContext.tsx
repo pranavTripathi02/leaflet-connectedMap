@@ -20,6 +20,8 @@ export type TUser = {
 };
 
 type TContext = {
+  isMapView: boolean;
+  setIsMapView: React.Dispatch<React.SetStateAction<boolean>>;
   userList: TUser[];
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -30,7 +32,7 @@ type TContext = {
 const MapContext = createContext<TContext | null>(null);
 
 function MapContextProvider({ children }: { children: React.ReactNode }) {
-  // const [userList, setUserList] = useState<TUser[]>([]);
+  const [isMapView, setIsMapView] = useState(true);
   const [filteredUserList, setFilteredUserList] = useState<TUser[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selUser, setSelUser] = useState<TUser | null>(null);
@@ -59,6 +61,8 @@ function MapContextProvider({ children }: { children: React.ReactNode }) {
   return (
     <MapContext.Provider
       value={{
+        isMapView,
+        setIsMapView,
         userList: filteredUserList,
         searchTerm,
         setSearchTerm,

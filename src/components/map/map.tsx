@@ -1,6 +1,6 @@
 "use client";
 
-import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/leaflet.markercluster";
 import L from "leaflet";
@@ -10,20 +10,17 @@ import useMapContext from "@/hooks/useMapContext";
 import { useEffect, useState } from "react";
 import Loading from "../loading";
 import MarkerIndividualSm from "./markerIndividualSm";
-import { on } from "events";
-import MarkerIndividualMd from "./markerIndividualMd";
 
 const MAPCENTER: L.LatLngTuple = [0, 0];
 const MAPZOOM = 4;
 const MAPZOOM_MIN = 4;
 const MAPZOOM_MAX = 12;
 // TODO:
-// cluster icon
+// cluster icon depending on children
 function Map() {
   const { userList } = useMapContext();
   const [mount, setMount] = useState(false);
   const [map, setMap] = useState<L.Map | null>(null);
-  console.log();
   useEffect(() => {
     setMount(true);
   }, []);
@@ -45,7 +42,6 @@ function Map() {
       },
       animate: true,
     });
-    console.log(markers);
     userList.forEach(
       (user) =>
         user.location.lat &&
