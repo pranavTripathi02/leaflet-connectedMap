@@ -7,6 +7,7 @@ import { useState } from "react";
 function ListView() {
   const [offset, setOffset] = useState(0);
   const { userList, selUser, setSelUser } = useMapContext();
+  console.log(userList.length, offset);
   const showUserDetails = (id: number) => {
     if (selUser === id) {
       setSelUser(null);
@@ -66,7 +67,7 @@ function ListView() {
           <button
             className="flex gap-2 border px-4 py-2 disabled:opacity-50"
             onClick={nextPage}
-            disabled={offset >= 1000}
+            disabled={userList.length - offset < 10}
           >
             <div>
               <span>Next</span>
