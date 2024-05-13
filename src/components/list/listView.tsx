@@ -8,15 +8,11 @@ import { TUser } from "@/context/mapContext";
 
 function ListView() {
   const [offset, setOffset] = useState(0);
-  const { selUser, setSelUser } = useMapContext();
+  const { updateSelUser } = useMapContext();
   const { results } = useInstantSearch();
 
   const showUserDetails = (id: number) => {
-    if (selUser === id) {
-      setSelUser(null);
-    } else {
-      setSelUser(id);
-    }
+    updateSelUser(id);
   };
 
   const prevPage = () => {

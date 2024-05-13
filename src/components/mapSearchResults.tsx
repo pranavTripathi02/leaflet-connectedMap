@@ -5,18 +5,17 @@ import { useInstantSearch } from "react-instantsearch";
 
 function SearchResults() {
   const { results } = useInstantSearch();
-  const { isMapView, setSelUser } = useMapContext();
+  const { isMapView, updateSelUser } = useMapContext();
   const handleClick = (userId: number) => {
-    console.log("clicking");
-    setSelUser(userId);
+    updateSelUser(userId);
   };
   if (!isMapView) return null;
   return (
-    <div className="invisible absolute left-0 right-0 top-16 z-20 mx-auto max-h-[512px] max-w-[400px] overflow-scroll group-focus-within:visible">
+    <div className="invisible absolute left-0 right-0 top-16 -z-[1] mx-auto max-h-[512px] max-w-[400px] overflow-scroll group-focus-within:visible">
       {results.hits.slice(0, 20).map((user: TUser) => (
         <div
           key={user.id}
-          className="flex w-full cursor-pointer items-center gap-4 rounded border-b border-black/5 bg-white px-4 py-4 last:border-0"
+          className="pointer-events-auto relative z-40 flex w-full select-none items-center gap-4 rounded border-b border-black/5 bg-white px-4 py-4 last:border-0 hover:bg-blue-50"
           onClick={() => {
             handleClick(user.id);
           }}
@@ -42,6 +41,7 @@ function SearchResults() {
               {user.location.country && user.location.country}
             </p>
           </div>
+          <button className="absolute inset-0 h-full w-full" />
         </div>
       ))}
     </div>

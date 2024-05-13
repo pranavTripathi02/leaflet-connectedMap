@@ -22,7 +22,7 @@ type TContext = {
   isMapView: boolean;
   setIsMapView: React.Dispatch<React.SetStateAction<boolean>>;
   selUser: number | null;
-  setSelUser: React.Dispatch<React.SetStateAction<number | null>>;
+  updateSelUser: (userId: number) => void;
 };
 
 const MapContext = createContext<TContext | null>(null);
@@ -31,13 +31,21 @@ function MapContextProvider({ children }: { children: React.ReactNode }) {
   const [isMapView, setIsMapView] = useState(true);
   const [selUser, setSelUser] = useState<number | null>(null);
 
+  const updateSelUser = (userId: number) => {
+    if (selUser === userId) {
+      setSelUser(null);
+    } else {
+      setSelUser(userId);
+    }
+  };
+
   return (
     <MapContext.Provider
       value={{
         isMapView,
         setIsMapView,
         selUser,
-        setSelUser,
+        updateSelUser,
       }}
     >
       {children}

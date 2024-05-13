@@ -9,6 +9,7 @@ import { useInstantSearch } from "react-instantsearch";
 import MarkersCluster from "./markerCluster";
 import useMapContext from "@/hooks/useMapContext";
 import { TUser } from "@/context/mapContext";
+import PopupHTML from "./popupHtml";
 
 const MAPCENTER: L.LatLngTuple = [0, 0];
 const MAPZOOM = 4;
@@ -25,8 +26,8 @@ function Map() {
     if (selUser) {
       const user: TUser = results.hits.find((hit) => hit.id === selUser);
       if (user.location.lat && user.location.lng) {
-        console.log("flying to ", selUser);
         map?.flyTo([user.location.lat, user.location.lng]);
+        map?.openPopup(PopupHTML(user));
       }
     }
   }, [selUser]);
